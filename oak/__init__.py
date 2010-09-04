@@ -63,9 +63,7 @@ class Oak(object):
         self.tpl_vars = {
             'blog': {
                 'title': self.settings.BLOG_TITLE,
-#                'url': self.settings.BLOG_URL,
                 'url': self.blog_url,
-#                'id': "%s%s%s" % (self.settings.BLOG_URL, os.path.sep, "atom.xml"),
                 'id': "%s%s%s" % (self.blog_url, os.path.sep, "atom.xml"),
                 'last_updated': None, # Will be updated when reading posts.
                 'author': self.settings.AUTHOR,
@@ -73,15 +71,10 @@ class Oak(object):
             },
             'license_text': self.settings.BLOG_LICENSE_TEXT,
             'links': {
-#                'site': self.settings.PREFIX or '/', # if there is no prefix, use /
                 'site': self.blog_url,
-#                'taglist': os.path.sep.join([self.settings.PREFIX, self.settings.HTMLS['taglist']]),
                 'taglist': os.path.sep.join([self.blog_url, self.settings.HTMLS['taglist']]),
-#                'archive': os.path.sep.join([self.settings.PREFIX, self.settings.HTMLS['archive']]),
                 'archive': os.path.sep.join([self.blog_url, self.settings.HTMLS['archive']]),
-#                'authors': os.path.sep.join([self.settings.PREFIX, self.settings.HTMLS['authors']]),
                 'authors': os.path.sep.join([self.blog_url, self.settings.HTMLS['authors']]),
-#                'feed': os.path.sep.join([self.settings.PREFIX, self.settings.HTMLS['feed']]),
                 'feed': os.path.sep.join([self.blog_url, self.settings.HTMLS['feed']]),
             }
         }
@@ -123,7 +116,6 @@ class Oak(object):
         """
         year, month = filename.split('-')[:2]
         newfilename = "%s.html" % (os.path.splitext(filename)[0],)
-#        return os.path.sep.join([self.settings.PREFIX, year, month, newfilename])
         return os.path.sep.join(['',year, month, newfilename])
 
     def _tag_url(self, tagname):
@@ -134,7 +126,6 @@ class Oak(object):
 
         :return: string
         """
-#        return os.path.sep.join([self.settings.PREFIX, self.settings.TAGS_PREFIX, "%s.html" % (tagname,)])
         return os.path.sep.join([self.settings.TAGS_PREFIX, "%s.html" % (tagname,)])
 
     def _index_path(self):
@@ -149,7 +140,6 @@ class Oak(object):
 
         :returns: string
         """
-#        return os.path.sep.join([self.settings.PREFIX, self.settings.HTMLS['index']])
         return os.path.sep.join([self.settings.HTMLS['index']])
 
     def _tag_index_url(self):
@@ -157,7 +147,6 @@ class Oak(object):
 
         :returns: string
         """
-#        return os.path.sep.join([self.settings.PREFIX, self.settings.HTMLS['taglist']])
         return os.path.sep.join([self.settings.HTMLS['taglist']])
 
     def _tag_index_path(self):
@@ -182,7 +171,6 @@ class Oak(object):
         return os.path.sep.join([self.settings.OUTPUT_PATH, self.settings.HTMLS['archive']])
 
     def _archive_url(self):
-#        return os.path.sep.join([self.settings.PREFIX, self.settings.HTMLS['archive']])
         return os.path.sep.join([self.settings.HTMLS['archive']])
         
     def _write_file(self, filename, content):
@@ -227,7 +215,6 @@ class Oak(object):
             newfilename = "%s.html" % (os.path.splitext(filename)[0],)
             self.logger.info("Processing %s..." % (filename,))
             post = Post(f, self.settings.POST_DEFAULTS, processor.MarkdownProcessor)
-#            post['url'] = "%s%s" % (self.settings.BLOG_URL, self._post_url(newfilename))
             post['url'] = "%s%s" % (self.blog_url, self._post_url(newfilename))
             post['id'] = Atom.gen_id(post)
             self.posts.append(post)
